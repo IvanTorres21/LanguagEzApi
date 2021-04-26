@@ -15,8 +15,8 @@ class CreateBadgesUsersTable extends Migration
     {
         Schema::create('badges_users', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->unsigned()->nullable();
-            $table->integer('badge_id')->unsigned()->nullable();
+            $table->bigInteger('user_id')->unsigned()->nullable();
+            $table->bigInteger('badge_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null')->onUpdate('set null');
             $table->foreign('badge_id')->references('id')->on('badges')->onDelete('set null')->onUpdate('set null');
             $table->timestamps();

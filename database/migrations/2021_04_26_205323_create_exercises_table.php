@@ -21,7 +21,7 @@ class CreateExercisesTable extends Migration
             $table->json('translation')->nullable();
             $table->json('og_word')->nullable();
             $table->json('correct_word')->nullable();
-            $table->json('wrong->word')->nullable();
+            $table->json('wrong_word')->nullable();
             $table->foreign('languages_id')->references('id')->on('languages')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();
         });

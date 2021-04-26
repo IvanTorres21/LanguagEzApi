@@ -16,7 +16,9 @@ class CreateUserLanguagesTable extends Migration
         Schema::create('user_languages', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('users_id')->unsigned()->nullable();
+            $table->bigInteger('languages_id')->unsigned()->nullable();
             $table->foreign('users_id')->references('id')->on('users')->onUpdate('set null')->onDelete('set null');
+            $table->foreign('languages_id')->references('id')->on('languages')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();
         });
     }

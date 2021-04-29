@@ -13,7 +13,7 @@ class Badge extends Model
     
     protected $fillable = [
         'name',
-        'description'
+        'description',
     ];
 
     protected $casts = [

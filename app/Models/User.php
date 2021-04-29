@@ -21,7 +21,8 @@ class User extends Authenticatable
         'email',
         'password',
         'points',
-        'level'
+        'level',
+        'admin'
     ];
 
     protected $casts = [
@@ -29,7 +30,8 @@ class User extends Authenticatable
         'email' => 'string',
         'password' => 'string',
         'points' => 'integer',
-        'level' => 'integer'
+        'level' => 'integer',
+        'admin' => 'boolean'
     ];
 
     /**

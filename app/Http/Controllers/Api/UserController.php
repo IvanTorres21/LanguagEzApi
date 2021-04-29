@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Models\Friend;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
@@ -13,6 +14,9 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     
+    /**
+     * Logins an already existing user.
+     */
     public function login(Request $request) {
 
         try {
@@ -50,6 +54,9 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Creates a new user.
+     */
     public function signUp(Request $request) {
         try {
             $request->validate([
@@ -81,6 +88,59 @@ class UserController extends Controller
                 'status_code' => 500,
                 'message' => 'Error in Signup',
                 'error' => $error,
+            ]);
+        }
+    }
+
+    /**
+     * Adds a friend to the logged user using
+     * an email to identify them
+     */
+    public function addFriend(Request $request){
+        try {
+            $userFriend = User::where('email', $request->email)->first();
+            $friend = new Friend;
+            $friend->user_id = $request->user()->id;
+            $friend->friend_id = $userFriend->id;
+            if(!empty(Friend::where([['user_id', '=', $friend->user_id], ['friend_id', '=', $friend->friend_id]])->first())) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'Friend already added!'
+                ]);
+            }
+            $friend->save();
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Friend added successfully'
+            ]);
+        } catch (Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Error adding friend',
+                'error' => $error,
+            ]);
+        }
+    }
+
+    public function getfriends(Request $request) {
+        try {
+
+            $user = $request->user();
+            $friends = Friend::where('user_id', $user->id)->get();
+            $result = [];
+            foreach($friends as $friend) {
+                $data = User::where('id', $friend->friend_id)->first();
+                array_push($result, $data);
+            }
+            return response()->json([
+                "status_code" => 200,
+                'data' => $result
+            ]);
+        } catch(Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Error retrieving friends',
+                'error' => $error
             ]);
         }
     }

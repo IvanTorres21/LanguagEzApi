@@ -13,11 +13,12 @@ class Language extends Model
 
     protected $fillable = [
         'name',
-        'images'
+        'image'
     ];
 
     protected $casts = [
         'name' => 'json',
-        'images' => 'string'
+        'image' => 'string'
     ];
+
 }

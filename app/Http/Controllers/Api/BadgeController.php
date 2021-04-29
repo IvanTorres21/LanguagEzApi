@@ -54,6 +54,33 @@ class BadgeController extends Controller
     }
 
     /**
+     * Updates an already existing badge
+     */
+    public function update(Request $request) {
+        try {
+            if($request->user()->admin == false) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'Unauthorized'
+                ]);
+            }
+            $badge = Badge::where('id', $request->id)->first();
+            $badge->name = json_decode($request->name);
+            $badge->description = json_decode($request->description);
+            $badge->save();
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Badge updated correctly'
+            ]);
+        } catch (Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'error' => $error
+            ]);
+        }
+    }
+
+    /**
      * Creates a new Badge
      */
     public function store(Request $request) {
@@ -65,8 +92,8 @@ class BadgeController extends Controller
                 ]);
             }
             $badge = new Badge;
-            $badge->name = $request->name;
-            $badge->description = $request->description;
+            $badge->name = json_decode($request->name);
+            $badge->description = json_decode($request->description);
             $badge->save();
             return response()->json([
                 'status_code' => 200,
@@ -74,7 +101,7 @@ class BadgeController extends Controller
             ]);
         } catch (Exception $error) {
             return response()->json([
-                'status_code' => 400,
+                'status_code' => 500,
                 'error' => $error
             ]);
         }
@@ -96,7 +123,7 @@ class BadgeController extends Controller
             ]);
         } catch (Exception $error) {
             return response()->json([
-                'status_code' => 400,
+                'status_code' => 500,
                 'error' => $error
             ]);
         }

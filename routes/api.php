@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\BadgeController;
+use App\Http\Controllers\Api\LanguageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,13 +19,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login',[UserController::class, 'login']);
 Route::post('/signup', [UserController::class, 'signup']);
+
 Route::get('/badges', [BadgeController::class, 'index']);
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/user-badges', [BadgeController::class, 'userBadges']);
-    Route::post('/store-badge', [BadgeController::class, 'store']);
-    Route::post('/assign-badge', [BadgeController::class, 'assignBadge']);
 
-    Route::post('/get-friends', [UserController::class, 'getFriends']);
-    Route::post('/add-friend', [UserController::class, 'addFriend']);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/languages', [LanguageController::class, 'index']);
+    Route::post('/user_badges', [BadgeController::class, 'userBadges']);
+    Route::post('/store_badge', [BadgeController::class, 'store']);
+    Route::post('/update_badge', [BadgeController::class, 'update']);
+    Route::post('/assign_badge', [BadgeController::class, 'assignBadge']);
+
+    Route::post('/get_friends', [UserController::class, 'getFriends']);
+    Route::post('/add_friend', [UserController::class, 'addFriend']);
+
+    Route::post('/store_language', [LanguageController::class, 'store']);
+    Route::post('/update_language', [LanguageController::class, 'update']);
+    Route::post('/get_language_lessons', [LanguageController::class, 'getLessons']);
+    Route::post('/assign_language', [LanguageController::class, 'assignLanguage']);
 });

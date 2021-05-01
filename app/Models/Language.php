@@ -13,12 +13,17 @@ class Language extends Model
 
     protected $fillable = [
         'name',
-        'image'
+        'image',
+        'visible'
     ];
 
     protected $casts = [
         'name' => 'json',
-        'image' => 'string'
+        'image' => 'string',
+        'visible' => 'boolean'
     ];
-
+    
+    public function lessons() {
+        return $this->hasMany('App\Models\Lesson', 'languages_id');
+    }
 }

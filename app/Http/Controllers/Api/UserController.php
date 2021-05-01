@@ -122,6 +122,9 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Retrieves user friends
+     */
     public function getfriends(Request $request) {
         try {
 
@@ -136,6 +139,28 @@ class UserController extends Controller
                 "status_code" => 200,
                 'data' => $result
             ]);
+        } catch(Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Error retrieving friends',
+                'error' => $error
+            ]);
+        }
+    }
+
+    /**
+     * deletes friends
+     */
+    public function deleteFriend(Request $request) {
+        try {
+            if($request->user()->admin == false) {
+                return response()->json([
+                    'status_code' => 200,
+                    'message' => 'Unauthorized'
+                ]);
+                $friend = Friend::where('user_id', $request->user()->id)->where('friend_id', $request->friend_id)->first();
+                $friend->delete();
+            }
         } catch(Exception $error) {
             return response()->json([
                 'status_code' => 500,

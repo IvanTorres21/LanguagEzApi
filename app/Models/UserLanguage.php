@@ -13,11 +13,13 @@ class UserLanguage extends Model
 
     protected $fillable = [
         'users_id',
-        'languages_id'
+        'languages_id',
+        'lessons_done'
     ];
 
     protected $casts = [
         'users_id' => 'integer',
-        'languages_id' => 'integer'
+        'languages_id' => 'integer',
+        'lessons_done' => 'integer'
     ];
 }

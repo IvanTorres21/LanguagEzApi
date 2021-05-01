@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\BadgeController;
+use App\Http\Controllers\Api\LessonController;
 use App\Http\Controllers\Api\LanguageController;
+use App\Http\Controllers\Api\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,4 +40,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/update_language', [LanguageController::class, 'update']);
     Route::post('/get_language_lessons', [LanguageController::class, 'getLessons']);
     Route::post('/assign_language', [LanguageController::class, 'assignLanguage']);
+    Route::post('/delete_language', [LanguageController::class, 'deleteLanguage']);
+
+    Route::get('/get_notifications', [NotificationController::class, 'index']);
+    Route::post('/store_notification', [NotificationController::class, 'store']);
+    Route::post('/update_notification', [NotificationController::class, 'update']);
+    Route::post('/delete_notification', [NotificationController::class, 'delete']);
+
+    Route::post('/get_lessons', [LessonController::class, 'index']);
 });

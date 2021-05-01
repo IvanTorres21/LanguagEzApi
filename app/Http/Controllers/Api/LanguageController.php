@@ -17,7 +17,12 @@ class LanguageController extends Controller
     public function index(Request $request) {
         try {
 
-            $languages = Language::all();
+            $languages;
+            if($request->user()->admin) {
+                $languages = Language::all();
+            } else {
+                $languages = Language::where('visible', true)->get();
+            }
             $result = [];
             $assigned = UserLanguage::select('languages_id')->where('users_id', $request->user()->id)->get()->toArray();
             $aux = [];
@@ -63,6 +68,7 @@ class LanguageController extends Controller
             $language = Language::where('id', $request->id)->first();
             $language->name = json_decode($request->name);
             $language->image = $request->image;
+            $language->visible = $request->visible;
             $language->save();
             return response()->json([
                 'status_code' => 200,
@@ -148,4 +154,25 @@ class LanguageController extends Controller
         }
     }
 
+    public function deleteLanguage(Request $request) {
+        try {
+            if($request->user()->admin == false) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'Unauthorized'
+                ]);
+            }
+            $language = Language::findOrFail($request->id);
+            $language->delete();
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Deleted language'
+            ]);
+        } catch (Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Couldn\'t delete language'
+            ]);
+        }
+    }
 }

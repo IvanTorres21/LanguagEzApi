@@ -128,5 +128,30 @@ class BadgeController extends Controller
             ]);
         }
     }
+
+    /**
+     * Deletes a badge
+     */
+    public function deleteBadge(Request $request) {
+        try {
+            if($request->user()->admin == false) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'Unauthorized'
+                ]);
+            }
+            $badge = Badge::findOrFail($request->id);
+            $badge->delete();
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Deleted badge'
+            ]);
+        } catch (Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Couldn\'t delete badge'
+            ]);
+        }
+    }
 }
 

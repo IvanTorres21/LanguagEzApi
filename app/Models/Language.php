@@ -26,4 +26,8 @@ class Language extends Model
     public function lessons() {
         return $this->hasMany('App\Models\Lesson', 'languages_id');
     }
+    
+    public function tests() {
+        return $this->hasMany('App\Models\Test', 'languages_id');
+    }
 }

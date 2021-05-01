@@ -129,15 +129,12 @@ class UserController extends Controller
         try {
 
             $user = $request->user();
-            $friends = Friend::where('user_id', $user->id)->get();
-            $result = [];
-            foreach($friends as $friend) {
-                $data = User::where('id', $friend->friend_id)->first();
-                array_push($result, $data);
-            }
+            
+            $friends = Friend::where('user_id', $user->id)->with('user')->get();
+
             return response()->json([
                 "status_code" => 200,
-                'data' => $result
+                'data' => $friends
             ]);
         } catch(Exception $error) {
             return response()->json([

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\BadgeController;
 use App\Http\Controllers\Api\LessonController;
 use App\Http\Controllers\Api\LanguageController;
@@ -48,4 +49,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/delete_notification', [NotificationController::class, 'delete']);
 
     Route::post('/get_lessons', [LessonController::class, 'index']);
+    Route::post('/store_lesson', [LessonController::class, 'store']);
+    Route::post('/update_lesson', [LessonController::class, 'update']);
+    Route::post('/delete_lesson', [LessonController::class, 'delete']);
+    Route::post('/mark_lesson', [LessonController::class, 'markLessonAsDone']);
+
+    Route::post('/get_tests', [TestController::class, 'index']);
+    Route::post('/store_test', [TestController::class, 'store']);
+    Route::post('/update_test', [TestController::class, 'update']);
+    Route::post('/delete_test', [TestController::class, 'delete']);
+    Route::post('/mark_test', [TestController::class, 'markTestAsDone']);
 });

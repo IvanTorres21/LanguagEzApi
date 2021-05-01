@@ -3,131 +3,135 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Lesson;
+use App\Models\UserTest;
 use App\Models\Language;
-use App\Models\UserLanguage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class LessonController extends Controller
+class TestController extends Controller
 {
+    
     /**
-     * Get lessons from language
+     * Get all the tests a language has.
      */
     public function index(Request $request) {
         try {
-            $lessons = Language::where('id', $request->id)->with('lessons')->get();
+            $lessons = Language::where('id', $request->id)->with('tests')->first();
             return response()->json([
                 'status_code' => 200,
-                'language' => $lessons
+                'lessons' => $lessons
             ]);
         } catch(Exception $error) {
             return response()->json([
                 'status_code' => 500,
-                'message' => 'Couldn\'t retrieve lessons'
+                'message' => 'Couldn\'t retrieve tests'
             ]);
         }
     }
 
     /**
-     * Stores a lesson
+     * Stores a new test
      */
     public function store(Request $request) {
         try {
-            if($request->user()->admin == false) {
+            if(!$request->user()->admin) {
                 return response()->json([
                     'status_code' => 500,
                     'message' => 'Unauthorized'
                 ]);
             }
-            $lesson = new Lesson;
-            $lesson->title = json_decode($request->title);
-            $lesson->theory = json_decode($request->theory);
-            $lesson->languages_id = $request->id;
-            $lesson->save();
+            $test = new Test;
+            $test->name = json_decode($request->name);
+            $test->languages_id = $request->language_id;
+            $test->save();
             return response()->json([
                 'status_code' => 200,
-                'message' => 'Lesson saved succesfully'
+                'message' => 'Test created succesfully'
             ]);
         } catch(Exception $error) {
             return response()->json([
                 'status_code' => 500,
-                'message' => 'Couldn\'t save lesson'
+                'message' => 'Couldn\'t store test'
             ]);
         }
     }
 
     /**
-     * Updates a lesson
+     * Updates a test
      */
     public function update(Request $request) {
         try {
-            if($request->user()->admin == false) {
+            if(!$request->user()->admin) {
                 return response()->json([
                     'status_code' => 500,
                     'message' => 'Unauthorized'
                 ]);
             }
-            $lesson = Lesson::where('id', $request->id)->first();
-            $lesson->title = json_decode($request->title);
-            $lesson->theory = json_decode($request->theory);
-            $lesson->save();
+            $test = Test::where('id', $request->id)->first();
+            $test->name = json_decode($request->name);
+            $test->languages_id = $request->language_id;
+            $test->save();
             return response()->json([
                 'status_code' => 200,
-                'message' => 'Lesson updated succesfully'
+                'message' => 'Test updated succesfully'
             ]);
         } catch(Exception $error) {
             return response()->json([
                 'status_code' => 500,
-                'message' => 'Couldn\'t update lesson'
+                'message' => 'Couldn\'t update test'
             ]);
         }
     }
 
     /**
-     * Deletes a lesson
+     * Deletes a test
      */
     public function delete(Request $request) {
         try {
-            if($request->user()->admin == false) {
+            if(!$request->user()->admin) {
                 return response()->json([
                     'status_code' => 500,
                     'message' => 'Unauthorized'
                 ]);
             }
-            $lesson = Lesson::where('id', $request->id)->first();
-            $lesson->delete();
+            $test = Test::where('id', $request->id)->first();
+            $test->delete();
             return response()->json([
                 'status_code' => 200,
-                'message' => 'Lesson deleted succesfully'
+                'message' => 'Test deleted succesfully'
             ]);
         } catch(Exception $error) {
             return response()->json([
                 'status_code' => 500,
-                'message' => 'Couldn\'t delete lesson'
+                'message' => 'Couldn\'t delete test'
             ]);
         }
     }
 
     /**
-     * Marks lessons as done, this is to keep track of what lesson they are doing 
-     * and what tests they should have access to.
+     * Marks a test as done with the score
      */
-    public function markLessonAsDone(Request $request) {
+    public function markTestAsDone(Request $request) {
         try {
-            $lesson = Lesson::where('id', $request->id)->first();
-            $userLanguage = UserLanguage('users_id', $request->user()->id)->where('languages_id', $lesson->languages_id)->first();
-            $userLanguage->lessons_done = $userLanguage->lessons_done + 1;
-            $userLanguage->save();
-            $unlockedTest = floatval($userLanguage->lessons_done) / 10 == 0; // Every ten lessons there is a test for the user
+            $userTest = UserTest::where([['users_id', '=', $request->user()->id], ['tests_id', '=', $request->test_id]])->get();
+            if($userTest->count() == 0) {
+                $userTest = new UserTest;
+                $userTest->users_id = $request->user()->id;
+                $userTest->tests_id = $request->test_id;
+                $userTest->score = $request->score;
+            } else {
+                $userTest = $userTest[0];
+                $userTest->score = $request->score;
+            }
+            $userTest->save();
             return response()->json([
                 'status_code' => 200,
-                'message' => 'Lesson marked as done succesfully',
-                'unlocked_test' => $unlockedTest
+                'message' => 'Test marked succesfully'
             ]);
         } catch(Exception $error) {
             return response()->json([
                 'status_code' => 500,
-                'message' => 'Couldn\'t mark lesson'
+                'message' => 'Couldn\'t mark test'
             ]);
         }
     }

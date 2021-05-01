@@ -20,4 +20,13 @@ class Friend extends Model
         'user_id' => 'integer',
         'friend_id' => 'integer'
     ];
+
+    /**
+     * Get the user that owns the Friend
+     *
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'friend_id');
+    }
 }

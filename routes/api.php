@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\BadgeController;
 use App\Http\Controllers\Api\LessonController;
+use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\NotificationController;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +25,7 @@ Route::post('/login',[UserController::class, 'login']);
 Route::post('/signup', [UserController::class, 'signup']);
 
 Route::get('/badges', [BadgeController::class, 'index']);
-
+Route::get('/countries', [CountryController::class, 'index']);
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -59,4 +60,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/update_test', [TestController::class, 'update']);
     Route::post('/delete_test', [TestController::class, 'delete']);
     Route::post('/mark_test', [TestController::class, 'markTestAsDone']);
+    
+    Route::post('/store_country', [CountryController::class, 'store']);
+    Route::post('/delete_country', [CountryController::class, 'delete']);
 });

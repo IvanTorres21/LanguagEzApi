@@ -83,9 +83,9 @@ class LanguageController extends Controller
                 ]);
             }
             $language = Language::where('id', $request->id)->first();
-            $language->name = json_decode($request->name);
-            $language->image = $request->image;
-            $language->visible = $request->visible;
+            $language->name = $request->name != null ? json_decode($request->name) : $language->name;
+            $language->image = $request->image != null ? $request->image : $language->image;
+            $language->visible = $request->visible != null ? $request->visible : $language->visible;
             $language->save();
             return response()->json([
                 'status_code' => 200,

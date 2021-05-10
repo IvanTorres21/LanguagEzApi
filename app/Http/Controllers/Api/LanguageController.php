@@ -53,6 +53,23 @@ class LanguageController extends Controller
         }
     }
 
+    public function getLanguage($id) {
+        try {
+            $language = Language::findOrFail($id);
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Language retrieved',
+                'language' => $language
+            ]);
+        } catch (Exception $error) {
+
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Couldn\'t retrieve language'
+            ]);
+        }
+    }
+
     /**
      * Function that updates a Language
      */

@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/store_language', [LanguageController::class, 'store']);
     Route::post('/update_language', [LanguageController::class, 'update']);
+    Route::get('/get_language/{id}', [LanguageController::Class, 'getLanguage']);
     Route::post('/get_language_lessons', [LanguageController::class, 'getLessons']);
     Route::post('/assign_language', [LanguageController::class, 'assignLanguage']);
     Route::post('/delete_language', [LanguageController::class, 'deleteLanguage']);

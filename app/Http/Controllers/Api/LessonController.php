@@ -57,6 +57,25 @@ class LessonController extends Controller
     }
 
     /**
+     * Get a test
+     */
+    public function getLesson(Request $request) {
+        try {
+            $lesson = Lesson::where('id', $request->id)->with('exercises')->first();
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Lesson retrieved succesfully',
+                'lesson' => $lesson
+            ]);
+        } catch(Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Couldn\'t retrieve lesson'
+            ]);
+        }
+    }
+
+    /**
      * Updates a lesson
      */
     public function update(Request $request) {

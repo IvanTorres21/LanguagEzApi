@@ -12,7 +12,7 @@ class ExerciseLesson extends Model
     public $table = 'exercises';
 
     protected $fillable = [
-        'languages_id',
+        'lesson_id',
         'type',
         'sentence',
         'translation',
@@ -22,7 +22,7 @@ class ExerciseLesson extends Model
     ];
 
     protected $casts = [
-        'languages_id' => 'integer',
+        'lesson_id' => 'integer',
         'type' => 'integer',
         'sentence' => 'json',
         'translation' => 'json',

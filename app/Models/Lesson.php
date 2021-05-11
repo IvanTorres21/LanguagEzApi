@@ -22,4 +22,8 @@ class Lesson extends Model
         'title' => 'json',
         'theoy' => 'json'
     ];
+
+    public function exercises() {
+        return $this->hasMany('App\Models\ExerciseLesson', 'lesson_id');
+    }
 }

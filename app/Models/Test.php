@@ -20,4 +20,9 @@ class Test extends Model
         'name' => 'json',
         'languages_id' => 'integer'
     ];
+
+    
+    public function exercises() {
+        return $this->hasMany('App\Models\ExerciseTest', 'tests_id');
+    }
 }

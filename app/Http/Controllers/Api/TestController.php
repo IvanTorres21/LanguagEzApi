@@ -84,6 +84,25 @@ class TestController extends Controller
     }
 
     /**
+     * Get a test
+     */
+    public function getLesson(Request $request) {
+        try {
+            $test = Test::where('id', $request->id)->with('exercises')->first();
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Test retrieved succesfully',
+                'lesson' => $test
+            ]);
+        } catch(Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Couldn\'t retrieve test'
+            ]);
+        }
+    }
+
+    /**
      * Deletes a test
      */
     public function delete(Request $request) {

@@ -15,14 +15,14 @@ class CreateExercisesTable extends Migration
     {
         Schema::create('exercises', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('languages_id')->unsigned()->nullable();
+            $table->bigInteger('lesson_id')->unsigned()->nullable();
             $table->integer('type');
             $table->json('sentence')->nullable();
             $table->json('translation')->nullable();
             $table->json('og_word')->nullable();
             $table->json('correct_word')->nullable();
             $table->json('wrong_word')->nullable();
-            $table->foreign('languages_id')->references('id')->on('languages')->onUpdate('set null')->onDelete('set null');
+            $table->foreign('lesson_id')->references('id')->on('lessons')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();
         });
     }

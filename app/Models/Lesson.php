@@ -20,7 +20,7 @@ class Lesson extends Model
     protected $casts = [
         'languages_id' => 'integer',
         'title' => 'json',
-        'theoy' => 'json'
+        'theory' => 'json'
     ];
 
     public function exercises() {

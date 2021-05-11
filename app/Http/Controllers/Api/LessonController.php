@@ -59,9 +59,9 @@ class LessonController extends Controller
     /**
      * Get a test
      */
-    public function getLesson(Request $request) {
+    public function getLesson($id) {
         try {
-            $lesson = Lesson::where('id', $request->id)->with('exercises')->first();
+            $lesson = Lesson::where('id', $id)->with('exercises')->first();
             return response()->json([
                 'status_code' => 200,
                 'message' => 'Lesson retrieved succesfully',

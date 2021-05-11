@@ -92,7 +92,8 @@ class LessonController extends Controller
             $lesson->save();
             return response()->json([
                 'status_code' => 200,
-                'message' => 'Lesson updated succesfully'
+                'message' => 'Lesson updated succesfully',
+                'lesson' => $lesson
             ]);
         } catch(Exception $error) {
             return response()->json([

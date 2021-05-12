@@ -40,8 +40,8 @@ class LessonController extends Controller
                 ]);
             }
             $lesson = new Lesson;
-            $lesson->title = json_decode($request->title);
-            $lesson->theory = json_decode($request->theory);
+            $lesson->title = $request->title;
+            $lesson->theory = $request->theory;
             $lesson->languages_id = $request->id;
             $lesson->save();
             return response()->json([

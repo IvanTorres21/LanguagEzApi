@@ -57,11 +57,11 @@ class ExerciseController extends Controller
                 $exercise->tests_id = $request->id;
             }
             $exercise->type = $request->type;
-            $exercise->sentence = json_decode($request->sentence);
-            $exercise->translation = json_decode($request->translation);
-            $exercise->og_word = json_decode($request->og_word);
-            $exercise->correct_word = json_decode($request->correct_word);
-            $exercise->worng_word = json_decode($request->wrong_word);
+            $exercise->sentence = $request->sentence;
+            $exercise->translation = $request->translation;
+            $exercise->og_word = $request->og_word;
+            $exercise->correct_word = $request->correct_word;
+            $exercise->worng_word = $request->wrong_word;
             $exercise->save();
         } catch(Exception $error) {
             return response()->json([
@@ -89,11 +89,11 @@ class ExerciseController extends Controller
                 $exercise = ExerciseTest::where('tests_id', $request->id)->first();
             }
             $exercise->type = $request->type;
-            $exercise->sentence = json_decode($request->sentence);
-            $exercise->translation = json_decode($request->translation);
-            $exercise->og_word = json_decode($request->og_word);
-            $exercise->correct_word = json_decode($request->correct_word);
-            $exercise->worng_word = json_decode($request->wrong_word);
+            $exercise->sentence = $request->sentence;
+            $exercise->translation = $request->translation;
+            $exercise->og_word = $request->og_word;
+            $exercise->correct_word = $request->correct_word;
+            $exercise->worng_word = $request->wrong_word;
             $exercise->save();
         } catch(Exception $error) {
             return response()->json([

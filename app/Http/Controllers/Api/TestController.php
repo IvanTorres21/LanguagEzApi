@@ -41,7 +41,7 @@ class TestController extends Controller
                 ]);
             }
             $test = new Test;
-            $test->name = json_decode($request->name);
+            $test->name = $request->name;
             $test->languages_id = $request->language_id;
             $test->save();
             return response()->json([
@@ -68,7 +68,7 @@ class TestController extends Controller
                 ]);
             }
             $test = Test::where('id', $request->id)->first();
-            $test->name = json_decode($request->name);
+            $test->name = $request->name;
             $test->languages_id = $request->language_id;
             $test->save();
             return response()->json([

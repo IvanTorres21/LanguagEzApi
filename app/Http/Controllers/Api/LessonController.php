@@ -87,8 +87,8 @@ class LessonController extends Controller
                 ]);
             }
             $lesson = Lesson::where('id', $request->id)->first();
-            $lesson->title = json_decode($request->title);
-            $lesson->theory = json_decode($request->theory);
+            $lesson->title = $request->title;
+            $lesson->theory = $request->theory;
             $lesson->save();
             return response()->json([
                 'status_code' => 200,

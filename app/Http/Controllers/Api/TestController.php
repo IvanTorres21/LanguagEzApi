@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Lesson;
+use App\Models\Test;
 use App\Models\UserTest;
 use App\Models\Language;
 use App\Http\Controllers\Controller;

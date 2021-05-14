@@ -42,7 +42,7 @@ class TestController extends Controller
             }
             $test = new Test;
             $test->name = $request->name;
-            $test->languages_id = $request->language_id;
+            $test->languages_id = $request->id;
             $test->save();
             return response()->json([
                 'status_code' => 200,
@@ -69,11 +69,11 @@ class TestController extends Controller
             }
             $test = Test::where('id', $request->id)->first();
             $test->name = $request->name;
-            $test->languages_id = $request->language_id;
             $test->save();
             return response()->json([
                 'status_code' => 200,
-                'message' => 'Test updated succesfully'
+                'message' => 'Test updated succesfully',
+                'test' => $test
             ]);
         } catch(Exception $error) {
             return response()->json([
@@ -86,13 +86,13 @@ class TestController extends Controller
     /**
      * Get a test
      */
-    public function getLesson($id) {
+    public function getTest($id) {
         try {
             $test = Test::where('id', $id)->with('exercises')->first();
             return response()->json([
                 'status_code' => 200,
                 'message' => 'Test retrieved succesfully',
-                'lesson' => $test
+                'test' => $test
             ]);
         } catch(Exception $error) {
             return response()->json([

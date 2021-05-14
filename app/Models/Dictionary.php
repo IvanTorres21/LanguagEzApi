@@ -19,9 +19,9 @@ class Dictionary extends Model
     ];
 
     protected $casts = [
-        'og_word' => 'json',
+        'og_word' => 'string',
         'tr_word' => 'json',
-        'pr_word' => 'json',
+        'pr_word' => 'string',
         'languages_id' => 'integer'
     ];
 }

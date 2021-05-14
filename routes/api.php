@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\LessonController;
 use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\DictionaryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,6 +64,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/update_test', [TestController::class, 'update']);
     Route::post('/delete_test', [TestController::class, 'delete']);
     Route::post('/mark_test', [TestController::class, 'markTestAsDone']);
+
+    Route::post('/dictionary', [DictionaryController::class, 'index']);
+    Route::post('/store_word', [DictionaryController::class, 'store']);
+    Route::get('/getWord/{id}', [DictionaryController::class, 'getWord']);
+    Route::post('/update_word', [DictionaryController::class, 'update']);
+    Route::post('/delete_word', [DictionaryController::class, 'destroy']);
     
     Route::post('/store_country', [CountryController::class, 'store']);
     Route::post('/delete_country', [CountryController::class, 'delete']);

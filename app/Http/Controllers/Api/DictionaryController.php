@@ -14,15 +14,30 @@ class DictionaryController extends Controller
      */
     public function index(Request $request) {
         try {
-            $dictionary = Dictionary::select('og_word, tr_word, pr_word, languages_id')->where('languages_id', $request->id)->first();
+            $dictionary = Dictionary::select()->where('languages_id', $request->id)->get();
             return response()->json([
                 'status_code' => 200,
-                'dictionary' => $dictionary
+                'dictionary' => $dictionary != null ? $dictionary : []
             ]);
         } catch (Exception $error) {
             return response()->json([
                 'status_code' => 500,
                 'message' => 'Couldn\'t retrieve dictionary'
+            ]);
+        }
+    }
+
+    public function getWord($id) {
+        try {
+            $word = Dictionary::select()->where('id', $id)->first();
+            return response()->json([
+                'status_code' => 200,
+                'word' => $word != null ? $word : []
+            ]);
+        }  catch (Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Couldn\'t retrieve word'
             ]);
         }
     }
@@ -39,9 +54,10 @@ class DictionaryController extends Controller
                 ]);
             }
             $word = new Dictionary;
-            $word->og_word = $request->og_word;
-            $word->tr_word = $request->tr_word;
-            $word->pr_word = $request->pr_word;
+            $word->og_word = $request->ogWord;
+            $word->tr_word =  json_decode($request->trWord);
+            $word->pr_word = $request->prWord;
+            $word->languages_id = $request->id;
             $word->save();
             return response([
                 'status_code' => 200,
@@ -68,7 +84,7 @@ class DictionaryController extends Controller
             }
             $word = Dictionary::where('id', $request->id)->first();
             $word->og_word = $request->og_word;
-            $word->tr_word = $request->tr_word;
+            $word->tr_word =json_decode($request->trWord);
             $word->pr_word = $request->pr_word;
             $word->save();
             return response([

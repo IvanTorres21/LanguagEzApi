@@ -47,7 +47,25 @@ class BadgeController extends Controller
             ]);
         } catch (Exception $error) {
             return response()->json([
-                'status_code' => 400,
+                'status_code' => 500,
+                'error' => $error
+            ]);
+        }
+    }
+
+    /**
+     * Retrieves the data from a badge
+     */
+    public function getBadge(Request $request) {
+        try {
+            $badge = Badge::findFirst($request->$id);
+            return response()->json([
+                'status_code' => 500,
+                'badge' => $badge
+            ]);
+        } catch (Exception $error) {
+            return response()->json([
+                'status_code' => 500,
                 'error' => $error
             ]);
         }

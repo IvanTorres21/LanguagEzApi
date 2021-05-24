@@ -22,7 +22,24 @@ class NotificationController extends Controller
             ]);
         } catch(Exception $error) {
             return response()->json([
+                'status_code' => 500,
+                'message' => 'Couldn\'t retrieve notifications',
+                'error' => $error
+            ]);
+        }
+    }
+
+
+    public function getNotification($id) {
+        try {
+            $notification = Notification::find($id);
+            return response()->json([
                 'status_code' => 200,
+                'notification' => $notification
+            ]);
+        } catch(Exception $error) {
+            return response()->json([
+                'status_code' => 500,
                 'message' => 'Couldn\'t retrieve notifications',
                 'error' => $error
             ]);
@@ -41,8 +58,8 @@ class NotificationController extends Controller
                 ]);
             }
             $notification = new Notification;
-            $notification->title = json_decode($request->title);
-            $notification->content = json_decode($request->content);
+            $notification->title = $request->title;
+            $notification->content = $request->content;
             $notification->save();
             return response()->json([
                 'status_code' => 200,
@@ -68,8 +85,8 @@ class NotificationController extends Controller
                 ]);
             }
             $notification = Notification::where('id', $request->id)->first();
-            $notification->title = json_decode($request->title);
-            $notification->content = json_decode($request->content);
+            $notification->title = $request->title;
+            $notification->content = $request->content;
             $notification->save();
             return response()->json([
                 'status_code' => 200,

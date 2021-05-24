@@ -83,13 +83,14 @@ class DictionaryController extends Controller
                 ]);
             }
             $word = Dictionary::where('id', $request->id)->first();
-            $word->og_word = $request->og_word;
+            $word->og_word = $request->ogWord;
             $word->tr_word =json_decode($request->trWord);
-            $word->pr_word = $request->pr_word;
+            $word->pr_word = $request->prWord;
             $word->save();
             return response([
                 'status_code' => 200,
-                'message' => 'Word saved correctly'
+                'message' => 'Word saved correctly',
+                'word' => $word
             ]);
         } catch(Exception $error) {
             return response()->json([

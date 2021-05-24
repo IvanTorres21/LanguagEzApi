@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\BadgeController;
 use App\Http\Controllers\Api\LessonController;
 use App\Http\Controllers\Api\CountryController;
+use App\Http\Controllers\Api\ExerciseController;
 use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\DictionaryController;
@@ -35,6 +36,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/store_badge', [BadgeController::class, 'store']);
     Route::post('/update_badge', [BadgeController::class, 'update']);
     Route::post('/assign_badge', [BadgeController::class, 'assignBadge']);
+    Route::post('/get_badge', [BadgeController::class, 'getBadge']);
 
     Route::post('/get_friends', [UserController::class, 'getFriends']);
     Route::post('/add_friend', [UserController::class, 'addFriend']);
@@ -50,6 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/store_notification', [NotificationController::class, 'store']);
     Route::post('/update_notification', [NotificationController::class, 'update']);
     Route::post('/delete_notification', [NotificationController::class, 'delete']);
+    Route::get('/get_notification/{id}', [NotificationController::class, 'getNotification']);
 
     Route::post('/get_lessons', [LessonController::class, 'index']);
     Route::post('/store_lesson', [LessonController::class, 'store']);
@@ -71,6 +74,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/update_word', [DictionaryController::class, 'update']);
     Route::post('/delete_word', [DictionaryController::class, 'destroy']);
     
+    Route::post('/store_exercise', [ExerciseController::class, 'store']);
+    Route::post('/update_exercise', [ExerciseController::class, 'update']);
+    Route::post('/delete_exercise', [ExerciseController::class, 'delete']);
+    Route::post('/get_exercise', [ExerciseController::class, 'getExercise']);
+
     Route::post('/store_country', [CountryController::class, 'store']);
     Route::post('/delete_country', [CountryController::class, 'delete']);
 });

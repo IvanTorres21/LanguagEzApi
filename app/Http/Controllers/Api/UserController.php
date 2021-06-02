@@ -152,12 +152,36 @@ class UserController extends Controller
         try {
             if($request->user()->admin == false) {
                 return response()->json([
-                    'status_code' => 200,
+                    'status_code' => 500,
                     'message' => 'Unauthorized'
                 ]);
                 $friend = Friend::where('user_id', $request->user()->id)->where('friend_id', $request->friend_id)->first();
                 $friend->delete();
+                return response()->json([
+                    'status_code' => 200,
+                    'message' => 'Friend deleted successfully'
+                ]);
             }
+        } catch(Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Error retrieving friends',
+                'error' => $error
+            ]);
+        }
+    }
+
+    /**
+     * Get user profile
+     */
+    public function profile(Request $request) {
+        try {
+            $user = $request->user();
+            return response()->json([
+                'status_code' => 200,
+                'user' => $user
+            ]);        
+        }
         } catch(Exception $error) {
             return response()->json([
                 'status_code' => 500,

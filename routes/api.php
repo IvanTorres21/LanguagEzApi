@@ -38,8 +38,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/assign_badge', [BadgeController::class, 'assignBadge']);
     Route::post('/get_badge', [BadgeController::class, 'getBadge']);
 
+    Route::post('/get_profile', [UserController::class, 'profile']);
     Route::post('/get_friends', [UserController::class, 'getFriends']);
     Route::post('/add_friend', [UserController::class, 'addFriend']);
+    Route::post('/delete_friend', [UserController::class, 'deleteFriend']);
 
     Route::post('/store_language', [LanguageController::class, 'store']);
     Route::post('/update_language', [LanguageController::class, 'update']);

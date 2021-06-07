@@ -28,7 +28,7 @@ Route::post('/signup', [UserController::class, 'signup']);
 
 Route::get('/badges', [BadgeController::class, 'index']);
 Route::get('/countries', [CountryController::class, 'index']);
-
+Route::get('/get_notifications', [NotificationController::class, 'index']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/languages', [LanguageController::class, 'index']);
@@ -38,7 +38,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/assign_badge', [BadgeController::class, 'assignBadge']);
     Route::post('/get_badge', [BadgeController::class, 'getBadge']);
 
-    Route::post('/get_profile', [UserController::class, 'profile']);
+    Route::post('/get_profile', [UserController::class, 'getProfile']);
     Route::post('/get_friends', [UserController::class, 'getFriends']);
     Route::post('/add_friend', [UserController::class, 'addFriend']);
     Route::post('/delete_friend', [UserController::class, 'deleteFriend']);
@@ -49,8 +49,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/get_language_lessons', [LanguageController::class, 'getLessons']);
     Route::post('/assign_language', [LanguageController::class, 'assignLanguage']);
     Route::post('/delete_language', [LanguageController::class, 'deleteLanguage']);
-
-    Route::get('/get_notifications', [NotificationController::class, 'index']);
+ 
     Route::post('/store_notification', [NotificationController::class, 'store']);
     Route::post('/update_notification', [NotificationController::class, 'update']);
     Route::post('/delete_notification', [NotificationController::class, 'delete']);

@@ -150,18 +150,12 @@ class UserController extends Controller
      */
     public function deleteFriend(Request $request) {
         try {
-            if($request->user()->admin == false) {
-                return response()->json([
-                    'status_code' => 500,
-                    'message' => 'Unauthorized'
-                ]);
-                $friend = Friend::where('user_id', $request->user()->id)->where('friend_id', $request->friend_id)->first();
-                $friend->delete();
-                return response()->json([
-                    'status_code' => 200,
-                    'message' => 'Friend deleted successfully'
-                ]);
-            }
+            $friend = Friend::where('user_id', $request->user()->id)->where('friend_id', $request->friend_id)->first();
+            $friend->delete();
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Friend deleted successfully'
+            ]);            
         } catch(Exception $error) {
             return response()->json([
                 'status_code' => 500,
@@ -174,7 +168,7 @@ class UserController extends Controller
     /**
      * Get user profile
      */
-    public function profile(Request $request) {
+    public function getProfile(Request $request) {
         try {
             $user = $request->user();
             return response()->json([
@@ -182,7 +176,7 @@ class UserController extends Controller
                 'user' => $user
             ]);        
         }
-        } catch(Exception $error) {
+        catch(Exception $error) {
             return response()->json([
                 'status_code' => 500,
                 'message' => 'Error retrieving friends',

@@ -56,6 +56,8 @@ class LanguageController extends Controller
     public function getLanguage($id) {
         try {
             $language = Language::findOrFail($id);
+            $assigned = UserLanguage::where([['languages_id', '=', $id], ['users_id', '=', request()->user()->id]])->first();
+            $language['assigned'] = $assigned == null ? false : true;
             return response()->json([
                 'status_code' => 200,
                 'message' => 'Language retrieved',

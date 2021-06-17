@@ -18,7 +18,7 @@ class CreateDictionariesTable extends Migration
             $table->bigInteger('languages_id')->unsigned()->nullable();
             $table->string('og_word')->nullable();
             $table->json('tr_word');
-            $table->json('pr_word');
+            $table->string('pr_word');
             $table->foreign('languages_id')->references('id')->on('languages')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();
         });

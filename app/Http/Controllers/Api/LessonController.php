@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use App\Models\Lesson;
 use App\Models\Language;
 use App\Models\UserLanguage;
@@ -15,11 +16,10 @@ class LessonController extends Controller
      */
     public function index(Request $request) {
         try {
-            $lessons = Language::where('id', $request->id)->with('lessons')->get();
-            return response()->json([
-                'status_code' => 200,
-                'language' => $lessons
-            ]);
+            $lessons = Language::where('id', $request->id)->with('lessons.exercises')->first();
+            $userLanguage = UserLanguage::where([['languages_id', '=', $request->id], ['users_id', '=', request()->user()->id]])->first();
+            $lessons['lessons_done'] = $userLanguage->lessons_done;
+            return response()->json($lessons);
         } catch(Exception $error) {
             return response()->json([
                 'status_code' => 500,
@@ -135,9 +135,13 @@ class LessonController extends Controller
     public function markLessonAsDone(Request $request) {
         try {
             $lesson = Lesson::where('id', $request->id)->first();
-            $userLanguage = UserLanguage('users_id', $request->user()->id)->where('languages_id', $lesson->languages_id)->first();
+            $userLanguage = UserLanguage::where('users_id', $request->user()->id)->where('languages_id', $lesson->languages_id)->first();
             $userLanguage->lessons_done = $userLanguage->lessons_done + 1;
             $userLanguage->save();
+            $user = User::find($request->user()->id);
+            $user->points += 50;
+            if($user->points / 200 > 1) $user->level += 1;
+            $user->save();
             $unlockedTest = floatval($userLanguage->lessons_done) / 10 == 0; // Every ten lessons there is a test for the user
             return response()->json([
                 'status_code' => 200,

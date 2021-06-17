@@ -110,8 +110,8 @@ class BadgeController extends Controller
                 ]);
             }
             $badge = new Badge;
-            $badge->name = json_decode($request->name);
-            $badge->description = json_decode($request->description);
+            $badge->name = $request->name;
+            $badge->description = $request->description;
             $badge->save();
             return response()->json([
                 'status_code' => 200,

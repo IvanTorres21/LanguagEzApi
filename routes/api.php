@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/userss',[UserController::class, 'index']);
 Route::post('/login',[UserController::class, 'login']);
 Route::post('/signup', [UserController::class, 'signup']);
 

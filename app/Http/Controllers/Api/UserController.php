@@ -13,7 +13,11 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    
+    public function index() {
+        $users = User::all();
+        return $users;
+    }
+
     /**
      * Logins an already existing user.
      */

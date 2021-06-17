@@ -24,7 +24,12 @@ class BadgeController extends Controller
      */
     public function userBadges(Request $request) {
         try {
+            $userBadges;
+           if($request->user_id != null) {
             $userBadges = UserBadge::select('badge_id')->where('user_id', $request->user_id)->get();
+           } else {
+            $userBadges = UserBadge::select('badge_id')->where('user_id', $request->user()->id)->get();
+           }
             $badgesOwned = [];
             foreach($userBadges as $badge) {
                 $badge_id = $badge->toArray()['badge_id'];
